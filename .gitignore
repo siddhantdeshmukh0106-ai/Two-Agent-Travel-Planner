@@ -1,0 +1,64 @@
+# ==========================================
+# Two-Agent Travel Planner - Git Ignore
+# ==========================================
+
+# Python Virtual Environment
+.venv/
+venv/
+env/
+
+# Environment Variables and API Keys
+.env
+.env.*
+!.env.example
+
+# Python Cache Files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*$py.class
+
+# Python Build Files
+build/
+dist/
+*.egg-info/
+
+# Testing and Coverage Files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Application Logs
+*.log
+logs/
+
+# Streamlit Secrets
+.streamlit/secrets.toml
+
+# Temporary Files
+*.tmp
+*.temp
+
+# Application logs
+*.log
+requirements-full.txt
+
+# Generated reports
+agent1_research_report.txt
+final_travel_itinerary.txt
+routing_test_results.txt
+local_expert_report.txt
+
+# Generated JSON
+structured_itinerary.json
+end_to_end_research.json
+end_to_end_itinerary.json
