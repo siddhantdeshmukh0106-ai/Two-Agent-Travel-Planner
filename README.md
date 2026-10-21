@@ -1,5 +1,16 @@
 # 🌍 Two-Agent AI Travel Planner
 
+### 🌐 Live Application
+
+🚀 **[Try the Two-Agent AI Travel Planner](https://two-agent-travel-planner-en4nlrncawhxdpuj42ysz3.streamlit.app/)**
+
+An AI-powered travel planning application built using CrewAI,
+Google Gemini, Tavily Search, OpenStreetMap, and Streamlit.
+
+Generate personalized travel itineraries with destination research,
+day-wise activities, route planning, budget estimation, and
+downloadable travel plans.
+
 ### An Intelligent Multi-Agent Travel Planning Application Using CrewAI and Google Gemini
 
 A Python-based AI travel planning application that uses two collaborative AI agents to research travel destinations and generate personalized, budget-aware, day-wise itineraries.
@@ -122,6 +133,153 @@ CrewAI executes the agents sequentially, allowing the itinerary creator to use t
 | Requests | HTTP requests |
 
 ---
+## 🏗️ System Architecture
+
+The Two-Agent AI Travel Planner uses a sequential multi-agent
+architecture powered by CrewAI.
+
+Two specialized AI agents collaborate to research travel destinations
+and generate personalized itineraries based on user preferences.
+
+### Architecture Diagram
+
+```text
+                  ┌─────────────────────────┐
+                  │         USER            │
+                  │ Destination, Budget,    │
+                  │ Dates, Travelers,       │
+                  │ Preferences             │
+                  └────────────┬────────────┘
+                               │
+                               ▼
+                  ┌─────────────────────────┐
+                  │    STREAMLIT WEB APP    │
+                  │         app.py          │
+                  └────────────┬────────────┘
+                               │
+                               ▼
+                  ┌─────────────────────────┐
+                  │    INPUT VALIDATION     │
+                  │   utils/validators.py   │
+                  └────────────┬────────────┘
+                               │
+                               ▼
+                  ┌─────────────────────────┐
+                  │    CREWAI ORCHESTRATOR  │
+                  │         crew.py         │
+                  └────────────┬────────────┘
+                               │
+                               ▼
+             ┌───────────────────────────────┐
+             │       AGENT 1                 │
+             │       LOCAL EXPERT            │
+             │                               │
+             │ • Destination Research        │
+             │ • Tourist Attractions         │
+             │ • Local Food                  │
+             │ • Travel Recommendations      │
+             │                               │
+             │ Tool: Tavily Web Search       │
+             └───────────────┬───────────────┘
+                             │
+                             ▼
+             ┌───────────────────────────────┐
+             │     STRUCTURED RESEARCH       │
+             │     DestinationResearch       │
+             │     (Pydantic Schema)         │
+             └───────────────┬───────────────┘
+                             │
+                             ▼
+             ┌───────────────────────────────┐
+             │       AGENT 2                 │
+             │       ITINERARY CREATOR       │
+             │                               │
+             │ • Day-wise Travel Planning    │
+             │ • Activity Scheduling         │
+             │ • Route Estimation            │
+             │ • Budget Allocation           │
+             │                               │
+             │ Tools: OSRM, Budget Calculator│
+             └───────────────┬───────────────┘
+                             │
+                             ▼
+             ┌───────────────────────────────┐
+             │     STRUCTURED ITINERARY      │
+             │       TravelItinerary         │
+             │      (Pydantic Schema)        │
+             └───────────────┬───────────────┘
+                             │
+                             ▼
+             ┌───────────────────────────────┐
+             │       FINAL OUTPUT            │
+             │                               │
+             │ • Day-wise Itinerary          │
+             │ • Budget Breakdown            │
+             │ • Destination Research        │
+             │ • JSON / Markdown Downloads   │
+             └───────────────────────────────┘
+```
+
+### AI Agent Responsibilities
+
+**Agent 1 — Local Expert**
+
+The Local Expert Agent researches the selected destination using
+Tavily Search and Google Gemini.
+
+Its responsibilities include:
+
+- Discovering tourist attractions and landmarks.
+- Researching local cuisine and food recommendations.
+- Identifying useful destination information.
+- Producing structured research using the `DestinationResearch` schema.
+
+**Agent 2 — Itinerary Creator**
+
+The Itinerary Creator Agent receives the research generated by Agent 1
+and converts it into a personalized travel itinerary.
+
+Its responsibilities include:
+
+- Creating a day-wise activity schedule.
+- Organizing attractions into a practical travel plan.
+- Estimating travel distances and durations using OSRM.
+- Allocating expenses according to the user's budget.
+- Producing structured output using the `TravelItinerary` schema.
+
+### Agent Collaboration
+
+The agents execute sequentially through CrewAI.
+
+1. The user submits travel preferences through Streamlit.
+2. The application validates the input.
+3. CrewAI executes the Local Expert Agent.
+4. The Local Expert produces destination research.
+5. CrewAI passes the research to the Itinerary Creator Agent.
+6. The Itinerary Creator generates the travel itinerary.
+7. Pydantic validates the structured outputs.
+8. Streamlit displays the results and provides download options.
+
+### External Tools and APIs
+
+| Tool / API | Purpose |
+|---|---|
+| Google Gemini | Language model powering both agents |
+| Tavily Search | Destination research and travel information |
+| OpenStreetMap Nominatim | Converts location names into coordinates |
+| OSRM | Estimates driving distances and travel durations |
+| Budget Calculator | Estimates and validates travel expenses |
+| Pydantic | Validates structured agent outputs |
+| Streamlit | Displays the generated travel plan |
+
+### Error Handling
+
+The application includes centralized error handling to manage
+unexpected failures during input validation, API calls, and
+agent execution.
+
+Errors are logged for debugging, while the user interface
+displays readable error messages.
 
 ## 📂 Project Structure
 
@@ -392,3 +550,4 @@ A formal open-source license may be added before public distribution.
 Developed using open-source Python technologies and publicly available APIs.
 
 The application uses Google Gemini for language generation, CrewAI for agent orchestration, Tavily for web research, and OpenStreetMap-based services for geographic information.
+
